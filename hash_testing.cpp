@@ -105,11 +105,11 @@ int main(){
 
     // cout<<bin_value;
 
-    hash_compression h1;
+    // hash_compression h1;
 
-    for (string k: h1.state_registers_bin){
-        std::cout<<k<<std::endl;
-    }
+    // for (string k: h1.state_registers_bin){
+    //     std::cout<<k<<std::endl;
+    // }
 
     // int a = 311;
 
@@ -118,6 +118,16 @@ int main(){
     // string aaa = (std::bitset<32> (mid_int).to_string());
 
     // cout<<aaa;
+
+    int a  = 0;
+    string bin = "010101010011010";
+
+    a = stoul(bin, nullptr, 2);
+
+    string hexaDeciNum;
+    // counter for hexadecimal number array
+    int i = 0;
+
 
 
     return 0;

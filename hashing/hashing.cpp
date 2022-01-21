@@ -1,17 +1,17 @@
 #include "../utils/preprocessing.h"
 #include "../utils/sha256_algorithm.h"
+#include "../utils/compression.h"
 #include<vector>
 #include<iostream>
 #include<bitset>
 
-using namespace std;
 
 int main(){
     // useful variables
     unsigned long modulo_32 = (long)pow(2, 32);
 
     pre_process val1;
-    val1.set_bin_message("hello this is me lol");
+    val1.set_bin_message("abc");
     val1.set_message_box_pre();    
     val1.set_message_box_post();    
 
@@ -47,6 +47,12 @@ int main(){
 
     }
 
+    hash_compression hcomp;
+
+    hcomp.prepare_states(message_schedule);
+    std::string req_hash = hcomp.hexa_compression();
+
+    cout<<req_hash;
 
     return 0;
 }

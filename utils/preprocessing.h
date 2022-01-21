@@ -1,6 +1,7 @@
+#pragma once
+#include"to_bin.h"
 #include<iostream>
 #include<vector>
-#include"to_bin.h"
 
 class pre_process{
     private:
@@ -19,10 +20,7 @@ class pre_process{
 };
 
 void pre_process :: set_bin_message(std::string message){
-    to_bin conv_main;
-    conv_main.message = message;
-    message = conv_main.encode_message();
-    
+    message = encode_message(message);
     bin_message = message;
     message_box = message;
 
@@ -40,8 +38,7 @@ void pre_process :: set_message_box_pre(){
 }
 
 void pre_process :: set_message_box_post(){
-    to_bin conv;
-    std::string len_bits = conv.int_to_bit(bin_len);
+    std::string len_bits = int_to_bit(bin_len);
     int bits = len_bits.length();
     while (bits < POST_BITS){
         len_bits.insert(len_bits.begin(), '0');
@@ -56,5 +53,5 @@ std::string pre_process :: confirm_process(){
         return message_box;
     }
 
-    return bin_message; // raise some error for indication.
+    return bin_message; // raise some error for indication TODO.
 }

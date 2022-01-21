@@ -1,13 +1,9 @@
 // Program to convert strings to binary based on the ASCII Conversion Chart.
+#pragma once
+#include<string>
 
-class to_bin{
-    public:
-        std::string int_to_bit(int);
-        std::string message;
-        std::string encode_message();
-};
 
-std::string to_bin :: int_to_bit(int x){
+std::string int_to_bit(int x){
     std::string out;
     while ( x != 0){
         out += (x%2 == 0 ? "0" : "1");
@@ -17,7 +13,7 @@ std::string to_bin :: int_to_bit(int x){
     return out;
 }
 
-std::string to_bin :: encode_message(){
+std::string encode_message(std::string message){
     std::string out_stream;
     for (char ch : message){
         out_stream += int_to_bit(ch);
