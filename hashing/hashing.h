@@ -5,16 +5,22 @@
 #include<iostream>
 #include<bitset>
 
+class hashing{
+    public:
+        std::string object;
+        std::string hash;
+        std::string get_hash();
 
-int main(){
+};
+
+std::string hashing :: get_hash(){
     // useful variables
     unsigned long modulo_32 = (long)pow(2, 32);
 
     pre_process val1;
-    val1.set_bin_message("abc");
+    val1.set_bin_message(object);
     val1.set_message_box_pre();    
     val1.set_message_box_post();    
-
     std::string message_box1 = val1.confirm_process();
 
     std::vector<std::string> message_schedule;
@@ -48,11 +54,8 @@ int main(){
     }
 
     hash_compression hcomp;
-
     hcomp.prepare_states(message_schedule);
-    std::string req_hash = hcomp.hexa_compression();
+    hash = hcomp.hexa_compression();
 
-    cout<<req_hash;
-
-    return 0;
+    return hash;
 }

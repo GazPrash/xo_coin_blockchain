@@ -119,14 +119,16 @@ int main(){
 
     // cout<<aaa;
 
-    int a  = 0;
-    string bin = "010101010011010";
+    // int a  = 0;
+    string bin = "01101111001000000111011101101111";
 
-    a = stoul(bin, nullptr, 2);
+    cout<<bin.substr(0, bin.length()-3);
 
-    string hexaDeciNum;
-    // counter for hexadecimal number array
-    int i = 0;
+    // a = stoul(bin, nullptr, 2);
+
+    // string hexaDeciNum;
+    // // counter for hexadecimal number array
+    // int i = 0;
 
 
 
