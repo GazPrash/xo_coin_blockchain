@@ -49,11 +49,10 @@ void hash_compression :: prepare_states(vector<std::string> &message_schedule){
     // t2 = sigma_0 (a) + maj(a, b c)
     
     sha256 algorithm;
-    std::string t1, t2;
     int rounds = 0;
 
     // t1 & t2 calculation 
-    while (rounds < 63){
+    while (rounds <= 63){
         std::string s1_e = algorithm.sigma_1(state_registers_bin[4]);
         std::string ch_efg =  algorithm.ch_func(state_registers_bin[4],
                                                 state_registers_bin[5],
