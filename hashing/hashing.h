@@ -14,7 +14,6 @@ class hashing{
 };
 
 std::string hashing :: get_hash(){
-    // useful variables
     unsigned long modulo_32 = (long)pow(2, 32);
 
     pre_process val1;
@@ -55,7 +54,7 @@ std::string hashing :: get_hash(){
 
     hash_compression hcomp;
     hcomp.prepare_states(message_schedule);
-    hash = hcomp.hexa_compression();
+    hash = hcomp.hex_digest();
 
     return hash;
 }

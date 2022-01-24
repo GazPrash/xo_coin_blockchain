@@ -41,7 +41,7 @@ class hash_compression{
         }
 
         void prepare_states(vector<std::string> &message_schedule);
-        std::string hexa_compression();
+        std::string hex_digest();
 };
 
 void hash_compression :: prepare_states(vector<std::string> &message_schedule){
@@ -84,7 +84,7 @@ void hash_compression :: prepare_states(vector<std::string> &message_schedule){
 
 }
 
-std::string hash_compression :: hexa_compression(){
+std::string hash_compression :: hex_digest(){
     std::string hash;
     unsigned long mid_intt = 0; 
     int temp = 0; 
