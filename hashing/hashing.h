@@ -14,8 +14,6 @@ class hashing{
 };
 
 std::string hashing :: get_hash(){
-    unsigned long modulo_32 = (long)pow(2, 32);
-
     pre_process val1;
     val1.set_bin_message(object);
     val1.set_message_box_pre();    
@@ -31,7 +29,6 @@ std::string hashing :: get_hash(){
     }
 
     int t = 16;
-
     while (t < 64){
         // sigma_1 (t-2) + (t-7) + sigma_0 (t-15) + (t-16)
         sha256 algorithm;
@@ -45,12 +42,13 @@ std::string hashing :: get_hash(){
                             stoul(b, nullptr, 2)+ 
                             stoul(c, nullptr, 2)+ 
                             stoul(d, nullptr, 2);
-        big %= modulo_32;
+        // big %= (long)pow(2, 32);
         std::string bin_value = std::bitset<32>(big).to_string();
         message_schedule.push_back(bin_value);
         t++;
 
     }
+
 
     hash_compression hcomp;
     hcomp.prepare_states(message_schedule);

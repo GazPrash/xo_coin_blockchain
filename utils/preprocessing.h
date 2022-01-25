@@ -24,7 +24,7 @@ void pre_process :: set_bin_message(std::string message){
     bin_message = message;
     message_box = message;
 
-    bin_len = bin_message.length();
+    bin_len = message.length();
 }
 
 void pre_process :: set_message_box_pre(){
@@ -39,6 +39,7 @@ void pre_process :: set_message_box_pre(){
 
 void pre_process :: set_message_box_post(){
     std::string len_bits = int_to_bit(bin_len);
+
     int bits = len_bits.length();
     while (bits < POST_BITS){
         len_bits.insert(len_bits.begin(), '0');

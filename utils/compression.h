@@ -4,7 +4,7 @@
 #include <vector>
 #include <math.h>
 #include <bitset>
-#include<sstream>
+#include <sstream>
 
 using namespace std;
 
@@ -29,13 +29,13 @@ class hash_compression{
             for (int k : state_registers_int)
             {
                 double diff = abs(long(sqrt(k)) - double(sqrt(k)));
-                unsigned long mid_int = diff * (pow(2, 32));
+                unsigned long mid_int = diff * (long long)(pow(2, 32));
                 state_registers_bin.push_back(std::bitset<32>(mid_int).to_string());
             }
 
             for (int j : k_constants_int){
                 double cube_root = cbrt(j);
-                unsigned long mid_intt = cube_root * (pow(2, 32));
+                unsigned long mid_intt = cube_root * (long long)(pow(2, 32));
                 k_constants_bin.push_back(std::bitset<32> (mid_intt).to_string());
             }
         }
@@ -73,7 +73,7 @@ void hash_compression :: prepare_states(vector<std::string> &message_schedule){
                                 stoul(maj_abc, nullptr, 2);
 
         unsigned long mid_int = mid_int1 + mid_int2;
-        mid_int %= (long)(pow(2, 32));
+        mid_int %= (long long)(pow(2, 32));
         std::string new_state = std::bitset<32>(mid_int).to_string();
         state_registers_bin.pop_back();
         state_registers_bin.insert(state_registers_bin.begin(), new_state);
