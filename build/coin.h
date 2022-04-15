@@ -7,15 +7,15 @@
 class coin{
     public:
         std::string proof_of_work; // giver-monet-timestamp-reciver
-        void trade(int, std::string, std::string, std::string);
+        std::string trade(int, std::string, std::string, std::string);
 
 };
 
-void coin :: trade(int exchange, std::string trigger, std::string target, std::string timestamp){
-    user userw;
+std::string coin :: trade(int exchange, std::string trigger, std::string target, std::string timestamp){
+    user user_wallet;
     
-    if (exchange <= userw.check_balance(trigger)){
-        std::string info_string  = trigger+
+    if (exchange <= user_wallet.check_balance(trigger)){
+        std::string info_string  =  trigger+
                                     std::to_string(exchange)+
                                     timestamp+
                                     target;
@@ -28,10 +28,11 @@ void coin :: trade(int exchange, std::string trigger, std::string target, std::s
         // we'll assume that it's already mined // skipping the mining part.
 
         std::cout<<"Transaction was successfull for {"<<trigger<<"} -- {"<<target<<"} for: $XO "<<exchange;
+        return proof_of_work;
     }
 
     std::cout<<"Trade was not successfull due to insufficient funds in the Trigger Wallet.";
-    return;
-    // hash this and then return the hash which should be stored in a block inside a tchain.
+    return "-1";
+    // define a custom exception for this if possible.
 
 }

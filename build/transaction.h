@@ -9,9 +9,8 @@ class transaction{
     private:
         std::string timestamp_now();
     public:
-        std::string hash_id;
-        std:: string block_id;
-        void start_transaction(std::string, std::string, int);
+        std::string proof_of_work;
+        std::string start_transaction(std::string, std::string, int);
 
 };
 
@@ -23,9 +22,10 @@ std::string transaction :: timestamp_now(){
     return timestamp;
 }
 
-void transaction :: start_transaction(std::string trigger, std::string target, int exchange){
+std::string transaction :: start_transaction(std::string trigger, std::string target, int exchange){
     std::string stamp = timestamp_now();
     coin *tcoin = new coin;
-    tcoin->trade(exchange, trigger, target, stamp);
+    proof_of_work = tcoin->trade(exchange, trigger, target, stamp);
 
+    return proof_of_work;
 }

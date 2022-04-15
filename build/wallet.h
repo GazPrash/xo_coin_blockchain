@@ -13,8 +13,12 @@ class user{
 };
 
 int user :: check_balance(std::string sec_key){
-    // read csv check if sec_key exists, return balance;
-    return 152;
+    // we can use apis to make database calls if it exists, since this is a protoype bchain
+    // we are just going to return a reasonable balance b/w 0-1200;
+
+    int balance = (rand() % 1200);
+    return balance;
+
 }
 
 void user :: private_details(std::string pri_key){
