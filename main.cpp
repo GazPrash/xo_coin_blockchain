@@ -52,11 +52,14 @@ int main(){
     new_block->initialize_block(tsaction_pofs);
 
     chain current_chain_instance;
+    // update chain instance
     current_chain_instance.add_block(new_block);
 
-    // update chain instance
-    
-
+    // list of all transactions in one instance is contained
+    // in one block
+    for (auto tsaction : current_chain_instance.block_ledger){
+        cout<<tsaction->chash<<endl;
+    }
 
     return 0;
 }
