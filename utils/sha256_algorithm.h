@@ -2,6 +2,7 @@
 #include<vector>
 #include<iostream>
 #include<math.h>
+#include<bitset>
 
 
 class sha256{
@@ -80,19 +81,24 @@ std::string sha256 :: re_xor(std::string s1, std::string s2){
 
 std::string sha256 :: ch_func(std::string x, std::string y, std::string z){
 
-    for (int i = 0; i < x.length(); i++){
-        if (i == '1') x[i] = y[i];
-        else x[i] = z[i];
-    }
 
-    return x;
+    // for (int i = 0; i < x.length(); i++){
+    //     if (x[i] == '1') x[i] = y[i];
+    //     else x[i] = z[i];
+    // }
+
+    std::bitset<64> ret_ans =   (std::bitset<64> (x) ^ std::bitset<64> (y)) | 
+                                (std::bitset<64> (y) ^ std::bitset<64> (z));
+    
+
+    return ret_ans.to_string();
 }
 
 std:: string sha256 :: maj_func(std::string x, std::string y, std::string z){
     
-    for (int i = 0; i < x.length(); i++){
-        x[i] = ((x[i] & y[i]) | y[i] & z[i] | z[i] & x[i]);
-    }
-
-    return x;
+    // for (int i = 0; i < x.length(); i++){
+    //     x[i] = ((x[i]-'0' ^ y[i]-'0') | y[i] & z[i] | z[i] & x[i]);
+    // }
+    std::bitset<64> ret_ans = (std::bitset<64> (x) ^ std::bitset<64> (y)) ^ std::bitset<64> (z);
+    return ret_ans.to_string();
 }

@@ -23,8 +23,8 @@ void pre_process :: set_bin_message(std::string message){
     message = encode_message(message);
     bin_message = message;
     message_box = message;
-
     bin_len = message.length();
+    
 }
 
 void pre_process :: set_message_box_pre(){
