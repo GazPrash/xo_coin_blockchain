@@ -52,11 +52,11 @@ std::string hashing :: get_hash(){
     }
 
     int temp = 1;
-    for (auto stuff : message_schedule){
-        cout << stuff << endl;
-        if (temp == 22) cout<<"this ^"<<endl;
-        temp++;
-    }
+    // for (auto stuff : message_schedule){
+    //     cout << stuff << endl;
+    //     if (temp == 22) cout<<"this ^"<<endl;
+    //     temp++;
+    // }
 
 
     hash_compression hcomp;

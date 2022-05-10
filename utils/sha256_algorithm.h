@@ -72,8 +72,7 @@ std::string sha256 :: right_rotate_shift(std::string wi, int shift){
 
 std::string sha256 :: re_xor(std::string s1, std::string s2){
     for (int i = 0; i < s1.length(); i++){
-        if (s1[i] == s2[i]) s1[i] = '0';
-        else s1[i] = '1'; 
+        s1[i]='0' + ((s1[i]-'0') ^ (s2[i]-'0'));
     }
 
     return s1;
@@ -87,8 +86,8 @@ std::string sha256 :: ch_func(std::string x, std::string y, std::string z){
     //     else x[i] = z[i];
     // }
 
-    std::bitset<64> ret_ans =   (std::bitset<64> (x) ^ std::bitset<64> (y)) | 
-                                (std::bitset<64> (y) ^ std::bitset<64> (z));
+    std::bitset<32> ret_ans =   (std::bitset<32> (x) & std::bitset<32> (y)) ^
+                                (~std::bitset<32> (x) & std::bitset<32> (z));
     
 
     return ret_ans.to_string();
@@ -99,6 +98,6 @@ std:: string sha256 :: maj_func(std::string x, std::string y, std::string z){
     // for (int i = 0; i < x.length(); i++){
     //     x[i] = ((x[i]-'0' ^ y[i]-'0') | y[i] & z[i] | z[i] & x[i]);
     // }
-    std::bitset<64> ret_ans = (std::bitset<64> (x) ^ std::bitset<64> (y)) ^ std::bitset<64> (z);
+    std::bitset<32> ret_ans = (std::bitset<32> (x) & std::bitset<32> (y)) ^ (std::bitset<32> (x) & std::bitset<32> (z)) ^ (std::bitset<32> (y) & std::bitset<32> (z));
     return ret_ans.to_string();
 }

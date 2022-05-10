@@ -13,16 +13,6 @@ class hash_compression{
     public:
         std::vector<int> state_registers_int = {2, 3, 5, 7, 11, 13, 17, 19};
         std::vector<std::string> state_registers_bin;
-        std::vector<int> k_constants_int = {
-            2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 
-            37, 41, 43, 47, 53, 59, 61, 67, 71, 73,
-            79, 83, 89, 97, 101, 103, 107, 109, 113,    
-            127, 131, 137, 139, 149, 151, 157, 163,
-            167, 173, 179, 181, 191, 193, 197, 199,
-            211, 223, 227, 229, 233, 239, 241, 251,
-            257, 263, 269, 271, 277, 281, 283, 293,
-            307, 311
-        };
         std::vector<std::string> k_constants_hex = {
             "428a2f98", "71374491", "b5c0fbcf", "e9b5dba5", "3956c25b", "59f111f1", "923f82a4", "ab1c5ed5",
             "d807aa98", "12835b01", "243185be", "550c7dc3", "72be5d74", "80deb1fe", "9bdc06a7", "c19bf174",
@@ -42,12 +32,6 @@ class hash_compression{
                 unsigned long mid_int = diff * (long long)(pow(2, 32));
                 state_registers_bin.push_back(std::bitset<32>(mid_int).to_string());
             }
-
-            // for (int j : k_constants_int){
-            //     double cube_root = cbrt(j);
-            //     unsigned long mid_intt = cube_root * (long long)(pow(2, 32));
-            //     k_constants_bin.push_back(std::bitset<32> (mid_intt).to_string());
-            // }
 
             for (std::string hex_val: k_constants_hex){
                 stringstream ss;
@@ -69,37 +53,55 @@ void hash_compression :: prepare_states(vector<std::string> &message_schedule){
     
     sha256 algorithm;
     int rounds = 0;
+    
+    std::vector<std::string> temp_states(8);
+    for(int i=0;i<8;i++) {
+        temp_states[i]=state_registers_bin[i];
+    }
 
     // t1 & t2 calculation 
     while (rounds <= 63){
-        std::string s1_e = algorithm.sigma_1(state_registers_bin[4]);
-        std::string ch_efg =  algorithm.ch_func(state_registers_bin[4],
-                                                state_registers_bin[5],
-                                                state_registers_bin[6]);
+        auto sigma_ex=[&](std::string wi,int a,int b,int c)->std::string {
+            std::string w1 = algorithm.right_rotate_shift(wi, a);
+            std::string w2 = algorithm.right_rotate_shift(wi, b);
+            std::string w3 = algorithm.right_rotate_shift(wi, c);
+
+            return (algorithm.re_xor(w3, algorithm.re_xor(w1, w2)));
+        };
+        std::string s1_e = sigma_ex(temp_states[4],6,11,25);
+        std::string ch_efg =  algorithm.ch_func(temp_states[4],
+                                                temp_states[5],
+                                                temp_states[6]);
             
-        std::string s0_a = algorithm.sigma_0(state_registers_bin[0]);
-        std::string maj_abc= algorithm.maj_func(state_registers_bin[0],
-                                                state_registers_bin[1],
-                                                state_registers_bin[2]);
+        std::string s0_a = sigma_ex(temp_states[0],2,13,22);
+        std::string maj_abc= algorithm.maj_func(temp_states[0],
+                                                temp_states[1],
+                                                temp_states[2]);
         
-        unsigned long mid_int1= stoul(s1_e, nullptr, 2)+
+        unsigned long mid_int1= (stoul(s1_e, nullptr, 2)+
                                 stoul(ch_efg, nullptr, 2)+
-                                stoul(state_registers_bin[5], nullptr, 2)+
+                                stoul(temp_states[7], nullptr, 2)+
                                 stoul(k_constants_bin[rounds], nullptr, 2)+
-                                stoul(message_schedule[rounds], nullptr, 2);
+                                stoul(message_schedule[rounds], nullptr, 2))%(long long)(pow(2, 32));
 
-        unsigned long mid_int2= stoul(s0_a, nullptr, 2)+
-                                stoul(maj_abc, nullptr, 2);
+        unsigned long mid_int2= (stoul(s0_a, nullptr, 2)+
+                                stoul(maj_abc, nullptr, 2))%(long long)(pow(2, 32));
 
-        unsigned long mid_int = mid_int1 + mid_int2;
-        mid_int %= (long long)(pow(2, 32));
+        unsigned long mid_int = (mid_int1 + mid_int2)%(long long)(pow(2, 32));
+        
         std::string new_state = std::bitset<32>(mid_int).to_string();
-        state_registers_bin.pop_back();
-        state_registers_bin.insert(state_registers_bin.begin(), new_state);
-
+        temp_states.pop_back();
+        temp_states.insert(temp_states.begin(), new_state);
+        unsigned long mid_int3=(stoul(temp_states[4], nullptr, 2) + mid_int1)%(long long)(pow(2, 32));
+        temp_states[4]=std::bitset<32>(mid_int3).to_string();
         rounds++;
     }
 
+    for(int i=0;i<8;i++) {
+        unsigned long temp_int=(stoul(temp_states[i], nullptr, 2) + 
+                                stoul(state_registers_bin[i], nullptr, 2))%(long long)(pow(2, 32));
+        state_registers_bin[i]=std::bitset<32>(temp_int).to_string();
+    }
 }
 
 std::string hash_compression :: hex_digest(){
